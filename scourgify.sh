@@ -42,11 +42,13 @@ for song in $(find -P $PATH_TO_READ -type f -name '*.mp3'); do
         song_artist="unknown_artist"
     fi
 
+    song_artist=$(LC_ALL=C sed 's/[\d128-\d255]//g' <<< $song_artist)
+    song_artist=${song_artist//["/#;"]/"_"}
     song_new_path="${PATH_TO_WRITE}/${song_artist}"
     if [[ -d ${song_new_path} ]]; then
         echo "Directory ${song_new_path} exists"
     else
-        echo "Creating ${song_new_path} directory"
+        echo "Creating ${song_new_path}"
         mkdir "${song_new_path}"
     fi
 
@@ -59,11 +61,13 @@ for song in $(find -P $PATH_TO_READ -type f -name '*.mp3'); do
         song_album="unkown_album"
     fi
 
+    song_album=$(LC_ALL=C sed 's/[\d128-\d255]//g' <<< $song_album)
+    song_album=${song_album//["/#;"]/"_"}
     song_new_path="${PATH_TO_WRITE}/${song_artist}/${song_album}"
     if [[ -d "${song_new_path}" ]]; then
         echo "Directory ${song_new_path} exists"
     else
-        echo "Creating ${song_new_path} directory"
+        echo "Creating ${song_new_path}"
         mkdir "${song_new_path}"
     fi
 
