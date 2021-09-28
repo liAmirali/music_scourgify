@@ -1,4 +1,3 @@
-#!/usr/bin/python3
 import eyed3
 from pathlib import Path
 import subprocess
