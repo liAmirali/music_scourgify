@@ -1,10 +1,10 @@
 #!/bin/bash
+
 echo "Starting!"
 
 function usage() {
-    echo "-a path_to_read_from"
-    echo "-b path_to_write_in"
-    #will add later #echo "-R for recursive" 
+    echo "Optinal: -a path_to_read_from"
+    echo "Optinal: -b path_to_write_in"
     #will add later #echo "-A [true|false] to enable/disable album sub-directory making
 }
 
@@ -12,21 +12,25 @@ PATH_TO_READ="unorganized"
 PATH_TO_WRITE="organized"
 song_new_path="${PATH_TO_WRITE}"
 
-while getopts "a:b:R" option; do
+while getopts "a:b:" option; do
     case $option in
         a)
             PATH_TO_READ="${OPTARG}"
             ;;
         b)
             PATH_TO_WRITE="${OPTARG}"
-            ;;            
+            ;;
         \?)
             usage
+            exit
             ;;
-    esac   
+    esac
 done
 
-for song in $PATH_TO_READ/*.mp3; do
+OIFS="$IFS"
+IFS=$'\n'
+
+for song in $(find -P $PATH_TO_READ -type f -name '*.mp3'); do
     echo $song
     song_artist=$(eyeD3 "${song}" | grep "^artist: ")
     temp="artist: "
@@ -68,6 +72,8 @@ for song in $PATH_TO_READ/*.mp3; do
 
     echo "-------"
 done
+
+IFS="$OIFS"
 
 tree $PATH_TO_WRITE
 echo "Finished!"
