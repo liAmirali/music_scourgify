@@ -8,11 +8,6 @@ function usage() {
     #will add later #echo "-A [true|false] to enable/disable album sub-directory making
 }
 
-function create_directory() {
-    
-}
-
-
 PATH_TO_READ="unorganized"
 PATH_TO_WRITE="organized"
 song_new_path="${PATH_TO_WRITE}"
