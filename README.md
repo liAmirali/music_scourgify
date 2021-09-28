@@ -6,4 +6,4 @@ Pfff I got u.
 This program looks into a directory and first creates sub-directories for each artist.   
 And then in each artist directory, it creates sub-directories for albums.  
 And at the end it puts the songs in the corresponding directory.   
-That's how you get you OCD satisfied. :)
+That's how you get your OCD satisfied. :)
