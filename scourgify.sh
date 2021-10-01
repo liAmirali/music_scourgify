@@ -1,21 +1,23 @@
 #!/bin/bash
 
-echo "Starting!"
-
 function usage() {
-    echo "Optinal: -a path_to_read_from"
+    echo "-a path_to_read_from"
     echo "Optinal: -b path_to_write_in"
     #will add later #echo "-A [true|false] to enable/disable album sub-directory making
 }
 
-PATH_TO_READ="unorganized"
-PATH_TO_WRITE="organized"
+PATH_TO_READ=""
+PATH_TO_WRITE="scourgified"
 song_new_path="${PATH_TO_WRITE}"
 
 while getopts "a:b:" option; do
     case $option in
         a)
             PATH_TO_READ="${OPTARG}"
+            if [[ -z $PATH_TO_READ ]]; then
+                usage
+                exit
+            fi
             ;;
         b)
             PATH_TO_WRITE="${OPTARG}"
@@ -27,10 +29,20 @@ while getopts "a:b:" option; do
     esac
 done
 
+if [[ -z $PATH_TO_READ ]]; then
+    usage
+    exit
+fi
+
 OIFS="$IFS"
 IFS=$'\n'
 
+if [[ ! -d $PATH_TO_WRITE ]]; then
+    mkdir "${PATH_TO_WRITE}"
+fi
+
 for song in $(find -P $PATH_TO_READ -type f -name '*.mp3'); do
+    echo "Starting!"
     echo $song
     song_artist=$(eyeD3 "${song}" | grep "^artist: ")
     temp="artist: "
